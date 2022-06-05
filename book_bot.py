@@ -9,7 +9,7 @@ from random import randint
 def extract_status(path=None):
     # No path => return "No book opened!"
     # TODO
-
+    print("Hola")
     # Try to search a sentence in book:
     try:
         # Open and read textbook:
