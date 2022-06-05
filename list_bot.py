@@ -56,7 +56,7 @@ if __name__ == '__main__':
             print("Api messages: "+ str(e.api_messages))
 
         # Wait till next sentence extraction:
-        secs= randint(3000,5000)
+        secs= randint(2000,4600)
         
         print("Tweetteando en "+str(secs)+" segundos.")
         time.sleep(secs)
