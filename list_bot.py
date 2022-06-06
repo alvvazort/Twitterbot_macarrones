@@ -84,9 +84,9 @@ def respondCecyArmy(bot):
         time.sleep(secs)
 
 def chooseImage(bot):
-    listImages=["ceciarmy1.jpg","ceciarmy2.jpg","ceciarmy3.jpg"]
+    listImages=["eciarmy1.jpg","eciarmy2.jpg","eciarmy3.jpg"]
     image= listImages[randint(0,len(listImages)-1)]
-    return bot.media_upload("imagenes\\"+image)
+    return bot.media_upload("imagenes\c"+image)
 
 if __name__ == '__main__':
     # Setup Twitter API:
