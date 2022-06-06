@@ -1,4 +1,5 @@
-import tweepy, time
+from concurrent.futures import thread
+import tweepy, time, threading
 from access import *
 from random import randint, random
 
@@ -30,11 +31,8 @@ def get_tweets(bot):
                 
     return tweetlist
 
-if __name__ == '__main__':
-    # Setup Twitter API:
-    bot = twitter_setup()
-    
-    # Set tweet list:
+def tweetMacarrones(bot):
+     # Set tweet list:
     tweetlist = get_tweets(bot)
 
     # Tweet posting:
@@ -60,3 +58,44 @@ if __name__ == '__main__':
         
         print("Tweetteando en "+str(secs)+" segundos.")
         time.sleep(secs)
+
+def respondCecyArmy(bot):
+
+    time_line=bot.user_timeline(screen_name="ceciarmy", count=1, include_rts=False, tweet_mode= 'extended')
+
+    for info in time_line:
+        tweetId= info.id
+        media=chooseImage(bot)
+        bot.update_status(status="",media_ids=[media.media_id], in_reply_to_status_id = tweetId , auto_populate_reply_metadata=True)
+        print("Tweetteando primeros 'Que buen meme de cecyArmy joder'")
+    
+    while True:
+
+        time_line=bot.user_timeline(screen_name="ceciarmy", since_id= tweetId, include_rts=False, tweet_mode= 'extended')
+        print(time_line)
+        for info in time_line:
+            tweetId= info.id
+            media=chooseImage(bot)
+            bot.update_status(status="",media_ids=chooseImage(bot), in_reply_to_status_id = tweetId , auto_populate_reply_metadata=True)
+            print("Tweetteando 'Que buen meme de cecyArmy joder'")
+
+        secs=600
+        print("Se comprobará si ceciArmy ha tweeteado en 10 minutos")
+        time.sleep(secs)
+
+def chooseImage(bot):
+    listImages=["ceciarmy1.jpg","ceciarmy2.jpg","ceciarmy3.jpg"]
+    image= listImages[randint(0,len(listImages)-1)]
+    return bot.media_upload("imagenes\\"+image)
+
+if __name__ == '__main__':
+    # Setup Twitter API:
+    bot = twitter_setup()
+    simplethread=[]
+    simplethread.append(threading.Thread(target=tweetMacarrones,args=[bot]))
+    simplethread.append(threading.Thread(target=respondCecyArmy,args=[bot]))
+    
+    for i in range(0,len(simplethread)):
+        simplethread[i].start()
+
+   
