@@ -69,7 +69,7 @@ def respondCecyArmy(bot):
 
     time_line=bot.user_timeline(screen_name="ceciarmy", count=1, include_rts=False, tweet_mode= 'extended')
     reader= open("tweetId.csv","r")
-    writer= open("tweetId.csv","r")
+    writer= open("tweetId.csv","w")
 
     tweetId= reader.readline()
     while True:
