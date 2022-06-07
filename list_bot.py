@@ -68,26 +68,34 @@ def tweetMacarrones(bot):
 def respondCecyArmy(bot):
 
     time_line=bot.user_timeline(screen_name="ceciarmy", count=1, include_rts=False, tweet_mode= 'extended')
-    reader= open("tweetId.csv","r")
-    writer= open("tweetId.csv","w")
-
-    tweetId= reader.readline()
+    f= open("tweetId.csv","r")
+    tweetId= f.readline()
+    f.close()
     while True:
 
         time_line=bot.user_timeline(screen_name="ceciarmy", since_id= tweetId, include_rts=False, tweet_mode= 'extended')
-        print(time_line)
+        print("Tweets a responder a ceciarmy: "+ str(len(time_line)))
+        
         for info in time_line:
-            writer.write(str(info.id))
+            f=open("tweetId.csv","w")
+            f.write(str(info.id))
             tweetId= info.id
             media=chooseImage(bot)
-            bot.update_status(status="",media_ids=chooseImage(bot), in_reply_to_status_id = tweetId , auto_populate_reply_metadata=True)
-            print("Tweetteando 'Que buen meme de cecyArmy joder'")
+            try:
+                bot.update_status(status="",media_ids=[media.media_id], in_reply_to_status_id = tweetId , auto_populate_reply_metadata=True)
+                print("Tweetteando 'Que buen meme de cecyArmy joder'")
+            except tweepy.TwitterServerError as e:
+                print("Error: "+e)
+                print("Api codes: "+ str(e.api_codes))
+                print("Api errors: "+str(e.api_errors))
+                print("Api messages: "+ str(e.api_messages))
+            f.close()
 
+        
         secs=600
         print("Se comprobará si ceciArmy ha tweeteado en 10 minutos")
         time.sleep(secs)
-    reader.close()
-    writer.close()
+
 
 def chooseImage(bot):
     listImages=["eciarmy1.jpg","eciarmy2.jpg","eciarmy3.jpg","eciarmy4.jpg","eciarmy5.jpg","eciarmy6.jpg"]
