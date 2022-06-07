@@ -18,10 +18,7 @@ def get_tweets(bot):
     followingIds=bot.get_friend_ids()
     print("followingIds: "+ str(followingIds))
 
-    tweetlist = ["Hola twitter",
-                "solo pido q este verano sea mejor q el del año pasado",
-                "solo quiero pasar pagina",
-                "dar dos besos❌❌❌❌❌❌❌❌\ndar un abrazo✅✅✅✅✅✅✅✅"]
+    tweetlist = []
     
     for userId in followingIds:
         time_line=bot.user_timeline(user_id=userId, count=200, include_rts=False, tweet_mode= 'extended')
@@ -44,9 +41,14 @@ def tweetMacarrones(bot):
 
         # Try to post tweet:
         try:
-            print("posting: "+ tweet)
-            bot.update_status(tweet)
-            print("succesfully posted")
+            if("@" not in tweet):
+                print("posting: "+ tweet)
+                bot.update_status(tweet)
+                print("succesfully posted")
+            else:
+                print("El tweet tiene una mención, mejor no liarla con las menciones")
+                break
+
         except tweepy.TwitterServerError as e:
             print("Error: "+e)
             print("Api codes: "+ str(e.api_codes))
@@ -58,6 +60,9 @@ def tweetMacarrones(bot):
         
         print("Tweetteando en "+str(secs)+" segundos.")
         time.sleep(secs)
+    
+    print("Reiniciando tweetMacarrones")
+    tweetMacarrones(bot)
 
 def respondCecyArmy(bot):
 
