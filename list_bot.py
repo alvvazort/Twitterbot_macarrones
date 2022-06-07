@@ -90,7 +90,7 @@ def respondCecyArmy(bot):
     writer.close()
 
 def chooseImage(bot):
-    listImages=["eciarmy1.jpg","eciarmy2.jpg","eciarmy3.jpg"]
+    listImages=["eciarmy1.jpg","eciarmy2.jpg","eciarmy3.jpg","eciarmy4.jpg","eciarmy5.jpg","eciarmy6.jpg"]
     image= listImages[randint(0,len(listImages)-1)]
     return bot.media_upload("imagenes\c"+image)
 
