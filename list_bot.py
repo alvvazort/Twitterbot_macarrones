@@ -1,4 +1,5 @@
 from concurrent.futures import thread
+from ctypes.wintypes import LONG
 import tweepy, time, threading
 from access import *
 from random import randint, random
@@ -67,18 +68,16 @@ def tweetMacarrones(bot):
 def respondCecyArmy(bot):
 
     time_line=bot.user_timeline(screen_name="ceciarmy", count=1, include_rts=False, tweet_mode= 'extended')
+    reader= open("tweetId.csv","r")
+    writer= open("tweetId.csv","r")
 
-    for info in time_line:
-        tweetId= info.id
-        media=chooseImage(bot)
-        bot.update_status(status="",media_ids=[media.media_id], in_reply_to_status_id = tweetId , auto_populate_reply_metadata=True)
-        print("Tweetteando primeros 'Que buen meme de cecyArmy joder'")
-    
+    tweetId= reader.readline()
     while True:
 
         time_line=bot.user_timeline(screen_name="ceciarmy", since_id= tweetId, include_rts=False, tweet_mode= 'extended')
         print(time_line)
         for info in time_line:
+            writer.write(str(info.id))
             tweetId= info.id
             media=chooseImage(bot)
             bot.update_status(status="",media_ids=chooseImage(bot), in_reply_to_status_id = tweetId , auto_populate_reply_metadata=True)
@@ -87,6 +86,8 @@ def respondCecyArmy(bot):
         secs=600
         print("Se comprobará si ceciArmy ha tweeteado en 10 minutos")
         time.sleep(secs)
+    reader.close()
+    writer.close()
 
 def chooseImage(bot):
     listImages=["eciarmy1.jpg","eciarmy2.jpg","eciarmy3.jpg"]
